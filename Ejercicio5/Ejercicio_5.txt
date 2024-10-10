@@ -1,0 +1,53 @@
+#SOLUCION - EJERCICIO 5
+
+import multiprocessing as mp
+import random
+
+# Para resolver este ejercicio, nos basaremos en el metodo de Montecarlo para
+# la aproximacion del PI
+# PI ≈ 4 * (d/n); d: numero de puntos que caen dentro del circulo y n: numero
+# de puntos lanzados dentro del cuadrado con probabilidad uniforme
+
+# En sintesis la logica es que generamos puntos aleatorios dentro de un
+# cuadrado de lado 1, contamos cuantos de los puntos caen dentro del circulo
+# de radio 1, por lo que la proporcion de puntos dentro del circulo respecto 
+# al total de puntos generados lo podemos usar para estimar el valor de PI
+
+
+# SOLUCION DEL EJERCICIO
+def hallar_pi(n):
+    c = 0
+    for i in range(n):
+        #generamos los puntos aleatorios X Y
+        puntoX = random.random()
+        puntoY = random.random()
+        
+        #verificamos si el punto esta dentro del circulo
+        if puntoX*puntoX + puntoY*puntoY <= 1:
+            c = c + 1
+    return c
+
+if __name__ == '__main__':
+    N = 1000000
+    # para obtener el nro de procesadores usamos
+    nro_procesadores = mp.cpu_count()
+    # o podemos setear el "nro_procesadores = 3,4,5, etc"
+    # dividimos nuestro N en base al nro de procesadores
+    div = [N // nro_procesadores] * nro_procesadores
+    # creamos un grupo de procesos
+    pool = mp.Pool(processes=nro_procesadores)
+    res = pool.map(hallar_pi, div)
+    
+    #Cerramos el pool para que no acepten mas tareas
+    pool.close()
+    #Esperamos que todos los procesos terminen para continuar
+    pool.join()
+    #Sumamos los resultados obtenidos de los procesos
+    #el total de puntos que estan dentro del circulo
+    resTotal = sum(res)
+    #usamos la formula de aproximacion de PI
+    calc_pi_aproximado = 4 * (resTotal/N)
+    
+    print("Numero de procesadores a usar: ", nro_procesadores)
+    print("Valor aproximado de PI: ", calc_pi_aproximado)
+    
