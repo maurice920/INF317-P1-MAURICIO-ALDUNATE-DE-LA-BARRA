@@ -1,0 +1,10 @@
+D:\Examen1PINF317\Ejercicio9\Ejercicio9\Ejercicio9\bin\Debug\Ejercicio9.exe.config
+D:\Examen1PINF317\Ejercicio9\Ejercicio9\Ejercicio9\bin\Debug\Ejercicio9.exe
+D:\Examen1PINF317\Ejercicio9\Ejercicio9\Ejercicio9\bin\Debug\Ejercicio9.pdb
+D:\Examen1PINF317\Ejercicio9\Ejercicio9\Ejercicio9\obj\Debug\Ejercicio9.csproj.AssemblyReference.cache
+D:\Examen1PINF317\Ejercicio9\Ejercicio9\Ejercicio9\obj\Debug\Ejercicio9.Form1.resources
+D:\Examen1PINF317\Ejercicio9\Ejercicio9\Ejercicio9\obj\Debug\Ejercicio9.Properties.Resources.resources
+D:\Examen1PINF317\Ejercicio9\Ejercicio9\Ejercicio9\obj\Debug\Ejercicio9.csproj.GenerateResource.cache
+D:\Examen1PINF317\Ejercicio9\Ejercicio9\Ejercicio9\obj\Debug\Ejercicio9.csproj.CoreCompileInputs.cache
+D:\Examen1PINF317\Ejercicio9\Ejercicio9\Ejercicio9\obj\Debug\Ejercicio9.exe
+D:\Examen1PINF317\Ejercicio9\Ejercicio9\Ejercicio9\obj\Debug\Ejercicio9.pdb
