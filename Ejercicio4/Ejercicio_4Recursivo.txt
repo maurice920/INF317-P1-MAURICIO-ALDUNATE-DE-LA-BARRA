@@ -1,0 +1,22 @@
+// EJERCICIO 4 - RECURSIVO
+#include <stdio.h>
+
+void pi_recursivo(double *valor_pi, int nro_iteracion, int i, int sig, double res){
+	if (i >= nro_iteracion){
+		*valor_pi = res;
+		return;
+	}
+	res += sig * (4.0/(2*i+1));
+	pi_recursivo(valor_pi, nro_iteracion, i + 1, sig*-1, res);
+}
+
+
+int main(){
+	int nro_iteracion = 10000;
+	double valor_pi;
+	
+	pi_recursivo(&valor_pi, nro_iteracion,0, 1, 0.0);
+	printf("Recursivo - Valor PI: %.8f\n", valor_pi);
+	
+	return 0;
+}

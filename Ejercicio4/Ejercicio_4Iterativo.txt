@@ -1,0 +1,23 @@
+// EJERCICIO 4 - ITERATIVO
+#include <stdio.h>
+
+void pi_iterativo(double *valor_pi, int nroIteraciones){
+	double res = 0.0;
+	int sig = 1;
+	
+	for(int i=0; i<nroIteraciones; i++){
+		res += sig * (4.0/(2*i+1));
+		sig = sig * -1;
+	}
+	*valor_pi = res;
+}
+int main(){
+	int nroIteraciones = 10000;
+	double valor_pi;
+	
+	pi_iterativo(&valor_pi, nroIteraciones);
+	printf("Iterativo - Valor PI: %.8f\n", valor_pi);
+	
+	return 0;
+
+}
