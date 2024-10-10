@@ -1,0 +1,99 @@
+// SOLUCION EJERCICIO - 14
+
+#include <stdio.h>
+#include <mpi.h>
+
+#define FilaA 6
+#define ColumA 5
+#define FilaB 5
+#define ColumB 4
+
+// NOTA: CABE RECALCAR QUE PARA MULTIPLICAR 2 MATRICES HAY UN REQUISITO:
+// EL NRO DE COLUMNAS DE LA MATRIZ 1 DEBE SER IGUAL AL NRO DE FILAS DE LA MATRIZ 2
+int main(int argc, char **argv){
+	int procesador;
+	// Instanciamos la longitud de las matrices
+	int matrizA[FilaA][ColumA];
+	int matrizB[FilaB][ColumB];
+	int matrizC[FilaA][ColumB];
+	
+	MPI_Init(&argc, &argv);
+	MPI_Comm_rank(MPI_COMM_WORLD, &procesador);
+	
+	// si el procesador es igual a 0
+	// llenamos de datos las matrices A y B
+	if (procesador==0){
+		for(int i=0; i < FilaA;i++ ){
+			for(int j=0; j<ColumA; j++){
+				matrizA[i][j]=i+j;
+			}
+		}
+		for(int i=0; i < FilaB;i++ ){
+			for(int j=0; j<ColumB; j++){
+				matrizB[i][j]=i*j;
+			}
+		}
+		
+		//realizamos el envio de las matrices al procesador 1
+		MPI_Send(matrizA, FilaA*ColumA, MPI_INT, 1, 0, MPI_COMM_WORLD);
+		MPI_Send(matrizB, FilaB*ColumB, MPI_INT, 1, 0, MPI_COMM_WORLD);
+	}
+	if(procesador==1){
+		// recibimos las matrices enviadas por el procesador 0
+		MPI_Recv(matrizA, FilaA*ColumA, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+		MPI_Recv(matrizB, FilaB*ColumB, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+		
+		// ahora realizamos la multiplicacion de las matrices
+		for(int i=0; i < FilaA; i++){
+			for(int j=0; j < ColumB; j++){
+				matrizC[i][j]=0;
+				for(int k =0; k < ColumA; k++){
+					matrizC[i][j] += matrizA[i][k] * matrizB[k][j];
+				}
+			}
+		}
+		// ahora enviamos las matrices A,B,C al procesador 2 para mostrar
+		MPI_Send(matrizA, FilaA*ColumA, MPI_INT, 2, 0, MPI_COMM_WORLD);
+		MPI_Send(matrizB, FilaB*ColumB, MPI_INT, 2, 0, MPI_COMM_WORLD);
+		MPI_Send(matrizC, FilaA*ColumB, MPI_INT, 2, 0, MPI_COMM_WORLD);
+	}
+	if(procesador==2){
+		// recibimos las matrices enviadas por el procesador 1
+		MPI_Recv(matrizA, FilaA*ColumA, MPI_INT, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+		MPI_Recv(matrizB, FilaB*ColumB, MPI_INT, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+		MPI_Recv(matrizC, FilaA*ColumB, MPI_INT, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+		
+		// mostramos las matrices A B y la resultante C
+		printf("Matriz A:");
+		printf("\n");
+		
+		for(int i =0;i< FilaA;i++){
+			for(int j =0; j<ColumA; j++){
+				printf("%d ", matrizA[i][j]);
+			}
+			printf("\n");
+		}
+		
+		printf("Matriz B:");
+		printf("\n");
+		
+		for(int i =0;i< FilaB;i++){
+			for(int j =0; j<ColumB; j++){
+				printf("%d ", matrizB[i][j]);
+			}
+			printf("\n");
+		}
+		
+		printf("Matriz C:");
+		printf("\n");
+		
+		for(int i =0;i< FilaA;i++){
+			for(int j =0; j<ColumB; j++){
+				printf("%d ", matrizC[i][j]);
+			}
+			printf("\n");
+		}
+	}
+	MPI_Finalize();
+	return 0;
+}
