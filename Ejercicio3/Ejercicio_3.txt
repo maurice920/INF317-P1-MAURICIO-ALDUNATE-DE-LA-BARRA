@@ -1,0 +1,43 @@
+// SOLUCION EJERCICIO-3
+
+#include <stdio.h>
+
+void suma(int *a, int *b, int *c){
+	*c = *a + *b;
+}
+void resta(int *a, int *b, int *c){
+	*c = *a - *b;
+}
+void multi(int *a, int *b, int *c){
+	*c = *a * *b;
+}
+void div(int *a, int *b, float *c){
+	*c = (float) *a / *b;
+}
+
+int main(){
+	
+	float d;
+	int a,b,c;
+	
+	printf("Ingrese el primer numero: "); scanf("%d", &a);
+	printf("Ingrese el segundo numero: "); scanf("%d", &b);
+	
+	
+	printf("*************** RESULTADOS ***************\n");
+	suma(&a, &b, &c);
+	printf("La suma es: %d\n", c);
+	
+	resta(&a, &b, &c);
+	printf("La resta es: %d\n", c);
+	
+	multi(&a, &b, &c);
+	printf("El producto es: %d\n", c);
+	
+	div(&a, &b, &d);
+	printf("La division es: %.4f\n", d);
+	printf("******************************************\n");
+	
+	
+	return 0;
+}
