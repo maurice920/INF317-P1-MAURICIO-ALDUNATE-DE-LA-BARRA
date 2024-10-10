@@ -1,0 +1,6 @@
+D:\Examen1PINF317\Ejercicio7\CalculatorLibrary\CalculatorLibrary\bin\Debug\CalculatorLibrary.dll
+D:\Examen1PINF317\Ejercicio7\CalculatorLibrary\CalculatorLibrary\bin\Debug\CalculatorLibrary.pdb
+D:\Examen1PINF317\Ejercicio7\CalculatorLibrary\CalculatorLibrary\obj\Debug\CalculatorLibrary.csproj.AssemblyReference.cache
+D:\Examen1PINF317\Ejercicio7\CalculatorLibrary\CalculatorLibrary\obj\Debug\CalculatorLibrary.csproj.CoreCompileInputs.cache
+D:\Examen1PINF317\Ejercicio7\CalculatorLibrary\CalculatorLibrary\obj\Debug\CalculatorLibrary.dll
+D:\Examen1PINF317\Ejercicio7\CalculatorLibrary\CalculatorLibrary\obj\Debug\CalculatorLibrary.pdb
