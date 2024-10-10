@@ -1,0 +1,58 @@
+// SOLUCION EJERCICIO 13
+
+#include <stdio.h>
+#include <mpi.h>
+#include <string.h>
+
+#define MAXIMO 10
+
+void main(int argc, char **argv)
+{
+    int i, procesador;
+    char vector[MAXIMO] = {'H', 'o', 'l', 'a', ' ', 'M', 'u', 'n', 'd', 'o'};
+    
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &procesador);
+    
+    // Procesador 0 - llenamos el vector con "Hola Mundo"
+    if(procesador == 0){
+        // Imprimir vector
+        printf("Procesador 0: Vector\n");
+        for(i = 0; i < MAXIMO; i++){
+            printf("%c ", vector[i]);
+        }
+        printf("\n");
+        
+        // Enviamos el vector a los procesadores 1 y 2
+        MPI_Send(vector, MAXIMO, MPI_CHAR, 1, 0, MPI_COMM_WORLD);
+        MPI_Send(vector, MAXIMO, MPI_CHAR, 2, 0, MPI_COMM_WORLD);
+    }
+    
+    // Procesador 1 - desplegamos posiciones pares
+    if(procesador == 1){
+        MPI_Recv(vector, MAXIMO, MPI_CHAR, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        
+        printf("Procesador 1: Posiciones Pares\n");
+        for(i = 0; i < MAXIMO; i++){
+            if(i % 2 == 0){
+                printf("%c ", vector[i]);
+            }
+        }
+        printf("\n");
+    }
+    
+    // Procesador 2 - desplegamos posiciones impares
+    if(procesador == 2){
+        MPI_Recv(vector, MAXIMO, MPI_CHAR, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        
+        printf("Procesador 2: Posiciones Impares\n");
+        for(i = 0; i < MAXIMO; i++){
+            if(i % 2 != 0){
+                printf("%c ", vector[i]);
+            }
+        }
+        printf("\n");
+    }
+    
+    MPI_Finalize();
+}
