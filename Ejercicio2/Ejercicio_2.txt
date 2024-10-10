@@ -1,0 +1,32 @@
+// SOLUCION EJERCICIO 2
+
+#include <stdio.h>
+
+int suma(int a, int b){
+	return a + b;
+}
+int resta(int a, int b){
+	return a - b;
+}
+int multi(int a, int b){
+	return a * b;
+}
+float div(int a, int b){
+	return (float) a / b;
+}
+
+int main(){
+	int a,b;
+	printf("Ingrese el primer numero: "); scanf("%d", &a);
+	printf("Ingrese el segundo numero: "); scanf("%d", &b);
+	
+	printf("*************** RESULTADOS ***************\n");
+	printf("La suma es: %d\n", suma(a,b));
+	printf("La resta es: %d\n", resta(a,b));
+	printf("El producto es: %d\n", multi(a,b));
+	printf("La division es: %.4f\n", div(a,b));
+	printf("******************************************\n");
+	
+	return 0;
+	
+}
