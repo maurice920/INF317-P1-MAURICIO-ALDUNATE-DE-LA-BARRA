@@ -1,0 +1,45 @@
+// SOLUCION EJERCICIO - 12
+
+#include <stdio.h>
+#include <omp.h> // agregamos nuestra biblioteca para OPENMP
+
+int main(){
+	int i;
+	int n=12; // cantidad de terminos a generar
+	// En nuestro caso mostraremos la serie en base a
+	// -1 1 0 1 1 2 3 5
+	//  a b
+	int a=-1;
+	int b=1;
+	int s;
+	
+	// iniciamos una region paralela para cada hilo, 
+	//colocamos a s como privada y n,b, a 
+	// como shared o compartidos
+	#pragma omp parallel private(s) shared(n,a,b)
+	{
+		// indicamos que el bucle for que viene se dividira entre los hilos
+		// o dicho de otra manera, distribuira las iteraciones del ciclo for
+		// entre los hilos que se ejecuten en paralelo
+		#pragma omp for
+		for(i=0;i<n;i++){
+			// define una seccion critica donde un hilo puede 
+			// ejecutar el codigo a la vez, esto nos ayudara
+			// porque las operaciones que se haran sobre a,b,s
+			// es necesario que sean consistentes y no deben ser 
+			// interrumpidas por otros hilos que tambien 
+			// estan modificando a,b,s
+			#pragma omp critical
+			{
+				// logica fibonacci
+				s = a + b;
+				a = b;
+				b = s;
+				printf("%d ", b);
+			}
+		}
+	}
+	
+	printf("\n");
+	return 0;
+}
