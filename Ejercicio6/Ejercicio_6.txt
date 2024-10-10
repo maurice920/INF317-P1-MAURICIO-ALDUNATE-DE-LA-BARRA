@@ -1,0 +1,59 @@
+#SOLUCION EJERCICIO - 6
+
+import multiprocessing as mp
+from multiprocessing import Pool
+import math
+
+# Fórmula de Binet para el enésimo número de Fibonacci
+def nesimoFib(n):
+    au = (1 + math.sqrt(5)) / 2
+    return round((pow(au, n) - pow(-au, -n)) / math.sqrt(5))
+
+# Generar lista de Fibonacci con solo los dos primeros elementos
+def listFibInicial(inicial, limite):
+    return [nesimoFib(n) for n in range(inicial, inicial + 2)]  # Solo los primeros dos términos
+
+# Generar el resto de la secuencia usando los dos primeros términos
+def generarFibonacci(primero, segundo, limite):
+    resultado = [primero, segundo]
+    for _ in range(2, limite):
+        siguiente = resultado[-1] + resultado[-2]
+        resultado.append(siguiente)
+    return resultado
+
+if __name__ == '__main__':
+    # Obtenemos el número de núcleos del CPU
+    num_cores = 5
+    print("Nro núcleos disponibles CPU: " + str(num_cores))
+
+    nroFib = 20  # Número total de términos de Fibonacci que queremos calcular
+
+    # Dividimos la tarea entre los núcleos, asegurando que cada núcleo maneje un rango
+    limite_por_nucleo = nroFib // num_cores
+    print("Cantidad de Fibonacci's por núcleo: " + str(limite_por_nucleo))
+
+    # Crear las entradas para cada proceso: rangos donde cada núcleo va a trabajar
+    entradas = [(i * limite_por_nucleo, (i + 1) * limite_por_nucleo) for i in range(num_cores)]
+
+    # Ajustar el último rango si no llega exactamente a nroFib
+    if entradas[-1][1] < nroFib:
+        entradas[-1] = (entradas[-1][0], nroFib)
+
+    # Crear el pool de procesos
+    pool = Pool()
+
+    # Obtener los primeros dos términos de Fibonacci de cada rango (de cada proceso)
+    resultado_inicial = pool.starmap(listFibInicial, entradas)
+
+    # Generar secuencias completas a partir de los primeros dos términos de cada proceso
+    secuencias_completas = []
+    for i, inicial in enumerate(resultado_inicial):
+        primero, segundo = inicial[0], inicial[1]
+        rango = entradas[i][1] - entradas[i][0]  # Tamaño del rango de cada núcleo
+        secuencia = generarFibonacci(primero, segundo, rango)
+        secuencias_completas.append(secuencia)
+
+    # Imprimir los resultados de cada proceso
+    for i, secuencia in enumerate(secuencias_completas):
+        print(f"Secuencia completa generada a partir del proceso {i + 1}:")
+        print(secuencia)
